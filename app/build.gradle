@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.jan.facetag"
-        minSdkVersion 10
-        targetSdkVersion 15
+        minSdkVersion 21
+        targetSdkVersion 21
     }
 
     buildTypes {
