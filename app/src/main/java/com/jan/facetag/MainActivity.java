@@ -15,25 +15,20 @@ import android.widget.TextView;
 
 @TargetApi(4)
 public class MainActivity extends TabActivity {
-    /**
-     * Called when the activity is first created.
-     */
-    static TabHost tabHost;
-    static Intent intentg;
-    static Intent intentc;
-    static Intent intentg2;
-    static Context context;
-    Bundle savedInstanceState;
+
     @Override
 
     public void onCreate(Bundle savedInstanceState) {
-        this.savedInstanceState = savedInstanceState;
+        Bundle savedInstanceState1 = savedInstanceState;
         super.onCreate(savedInstanceState);
-        context = this;
+        Context context = this;
         setContentView(R.layout.activity_main);
-        tabHost = getTabHost();
+        /*
+      Called when the activity is first created.
+     */
+        TabHost tabHost = getTabHost();
         View tabView = createTabView(this, "Contacts");
-        intentc = new Intent().setClass(this, ContactsActivity.class)
+        Intent intentc = new Intent().setClass(this, ContactsActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         TabSpec contacts;
         contacts = tabHost.newTabSpec("Contacts")
@@ -43,7 +38,7 @@ public class MainActivity extends TabActivity {
 
         tabHost.addTab(contacts);
 
-        intentg2 = new Intent(this, myGallery.class)
+        Intent intentg2 = new Intent(this, myGallery.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         TabSpec gallary;
         tabView = createTabView(this, "Gallery");

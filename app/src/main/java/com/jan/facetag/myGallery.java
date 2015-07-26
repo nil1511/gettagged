@@ -57,26 +57,19 @@ import android.widget.ViewSwitcher;
 
 public class myGallery extends Activity implements AdapterView.OnItemSelectedListener, ViewSwitcher.ViewFactory, OnTouchListener {
     private static final String SAMPLE_DB_NAME = "myGallery";
-    public ArrayList<File> imags = new ArrayList<File>();
-    public ImageView mIS;
-    public Gallery g;
-    public Button tag;
-    public String[] n;
-    Bitmap te, tab;
+    private final ArrayList<File> imags = new ArrayList<>();
+    private ImageView mIS;
+    private Gallery g;
+    private Button tag;
+    private Bitmap tab;
     private FaceDetector.Face[] detectedFaces;
-    private int NUMBER_OF_FACES = 1;
-    private FaceDetector faceDetector;
     private int NUMBER_OF_FACE_DETECTED, pos;
-    private float eyeDistance;
     private static float x;
-    private PointF midPoint;
-    private Drawable ima;
     private TextView tv;
     private SQLiteDatabase sampleDB;
     private ImageButton call, sms, rot;
     private int angle = 0;
     private String na;
-    private byte[] im;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +84,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
             Log.d("t", na);
 
         } catch (Exception e) {
-            System.out.println(e);
+            Log.e("error", e.getMessage());
         }
         try {
             sampleDB = this.openOrCreateDatabase(SAMPLE_DB_NAME, MODE_PRIVATE, null);
@@ -118,10 +111,11 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                     i++;
                 }
             }
+            c.close();
         }
         rot = (ImageButton) findViewById(R.id.imageButton3);
         mIS = (ImageView) findViewById(R.id.switcher);
-        mIS.setOnTouchListener((OnTouchListener) this);
+        mIS.setOnTouchListener(this);
         g = (Gallery) findViewById(R.id.gallery);
         g.setAdapter(new ImageAdapter(this));
         g.setOnItemSelectedListener(this);
@@ -148,17 +142,19 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                                 v.put("name", name);
                                 sampleDB.update(SAMPLE_DB_NAME, v, "imgPath = '" + imags.get(pos).getAbsolutePath() + "'", null);
                             }
+                            c1.close();
                         } catch (SQLiteException e) {
-                            System.out.println(e);
+                            Log.e("error", e.getMessage());
                         }
                     }
+                    c.close();
                 }
                 break;
         }
     }
 
     private void getImages(File dicm) {
-        n = null;
+        String[] n = null;
         if (dicm.exists()) {
             n = dicm.list(new FilenameFilter() {
 
@@ -167,8 +163,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                 }
             });
             if (n != null)
-                for (int i = 0; i < n.length; i++)
-                    imags.add(new File(dicm + "/" + n[i]));
+                for (String aN : n) imags.add(new File(dicm + "/" + aN));
         }
 
     }
@@ -195,8 +190,9 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
             Matrix m = new Matrix();
             m.postRotate(90);
             tab = Bitmap.createBitmap(tab, 0, 0, tab.getWidth(), tab.getHeight(), m, true);
+            int NUMBER_OF_FACES = 1;
             detectedFaces = new FaceDetector.Face[NUMBER_OF_FACES];
-            faceDetector = new FaceDetector(tab.getWidth(), tab.getHeight(), NUMBER_OF_FACES);
+            FaceDetector faceDetector = new FaceDetector(tab.getWidth(), tab.getHeight(), NUMBER_OF_FACES);
             NUMBER_OF_FACE_DETECTED = faceDetector.findFaces(tab, detectedFaces);
             tv.setText("Not Tagged");
             call.setVisibility(8);
@@ -248,8 +244,9 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                         }
                     });
                 }
+                c.close();
             } catch (SQLiteException e) {
-                System.out.println(e);
+                Log.e("error", e.getMessage());
             }
             tag.setEnabled(false);
             if (NUMBER_OF_FACE_DETECTED >= 0) {
@@ -266,8 +263,8 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
             tab.compress(Bitmap.CompressFormat.JPEG, 90, b);
             tab.recycle();
             System.gc();
-            im = b.toByteArray();
-            ima = new BitmapDrawable(BitmapFactory.decodeByteArray(im, 0, b.size()));
+            byte[] im = b.toByteArray();
+            Drawable ima = new BitmapDrawable(BitmapFactory.decodeByteArray(im, 0, b.size()));
             try {
                 b.close();
             } catch (IOException e) {
@@ -285,7 +282,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
         }
     }
 
-    public void turn() {
+    private void turn() {
         RotateAnimation anim = new RotateAnimation(angle, angle + 90,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         angle = (angle + 90) % 360;
@@ -299,7 +296,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
     }
 
     @SuppressLint({"DrawAllocation", "DrawAllocation"})
-    protected void onDraw(Canvas canvas) {
+    private void onDraw(Canvas canvas) {
         canvas.drawBitmap(tab, 0, 0, null);
         Paint myPaint = new Paint();
         myPaint.setColor(Color.GREEN);
@@ -307,9 +304,9 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
         myPaint.setStrokeWidth(3);
         for (int count = 0; count < NUMBER_OF_FACE_DETECTED; count++) {
             Face face = detectedFaces[count];
-            midPoint = new PointF();
+            PointF midPoint = new PointF();
             face.getMidPoint(midPoint);
-            eyeDistance = face.eyesDistance();
+            float eyeDistance = face.eyesDistance();
             RectF a = new RectF(midPoint.x - eyeDistance, midPoint.y - eyeDistance, midPoint.x + eyeDistance, midPoint.y + (1.5f * eyeDistance));
             canvas.drawRect(a, myPaint);
 
@@ -321,7 +318,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
 
     public class ImageAdapter extends BaseAdapter {
 
-        private Context mc;
+        private final Context mc;
 
         public ImageAdapter(Context c) {
             mc = c;
@@ -349,7 +346,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
             options.inPurgeable = true;
             options.inPreferredConfig = Config.ARGB_4444;
             Bitmap r = BitmapFactory.decodeFile(imags.get(position).getAbsolutePath(), options);
-            te = ThumbnailUtils.extractThumbnail(r, 100, 100);
+            Bitmap te = ThumbnailUtils.extractThumbnail(r, 100, 100);
             System.gc();
             r.recycle();
             i.setImageBitmap(te);
@@ -367,7 +364,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                         if (pos >= 0 && pos < imags.size() - 1)
                             g.setSelection(++pos, true);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        Log.e("error", e.getMessage());
                     }
                 } else if ((event.getX() - x) > 40) {
                     try {
@@ -375,7 +372,7 @@ public class myGallery extends Activity implements AdapterView.OnItemSelectedLis
                         if (pos > 0 && pos <= imags.size())
                             g.setSelection(--pos, true);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        Log.e("error", e.getMessage());
                     }
                 }
             }

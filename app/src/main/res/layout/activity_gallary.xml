@@ -1,81 +1,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android1:paddingTop="35dp" >
+    android:paddingTop="35dp">
 
     <ImageView
         android:id="@+id/switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android1:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="true"
         android:background="#882255aa"
-        android:contentDescription="@string/enlagreimage" />
+        android:contentDescription="@string/enlargeimage" />
 
     <Gallery
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="#882255FF"
         android:gravity="center_vertical"
         android:spacing="16dp" />
 
     <TextView
-        android1:textColor="#FFFFFFFF"
-        android1:id="@+id/textView1"
-        android1:layout_width="fill_parent"
-        android1:layout_height="wrap_content"
-        android1:layout_alignTop="@+id/switcher"
-        android1:layout_centerHorizontal="true"
+        android:textColor="#FFFFFFFF"
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/switcher"
+        android:layout_centerHorizontal="true"
         android:background="#aa2222FF"
-        android1:gravity="center_horizontal"
-        android1:text="@string/not_tagged"
+        android:gravity="center_horizontal"
+        android:text="@string/not_tagged"
         
-        android1:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android1:id="@+id/button1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/imageButton3"
-        android1:layout_alignParentRight="true"
-        android1:layout_below="@+id/textView1"
-        android1:enabled="false"
-        android1:text="@string/tag" />
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageButton3"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView1"
+        android:enabled="false"
+        android:text="@string/tag" />
 
     <ImageButton
-        android1:id="@+id/imageButton3"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentRight="true"
-        android1:layout_below="@+id/button1"
-        android1:contentDescription="@string/rotate"
-        android1:src="@android:drawable/ic_menu_rotate" />
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/button1"
+        android:contentDescription="@string/rotate"
+        android:src="@android:drawable/ic_menu_rotate" />
 
     <ImageButton
-        android1:id="@+id/imageButton1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/imageButton3"
-        android1:layout_alignParentRight="true"
-        android1:layout_below="@+id/imageButton3"
-        android1:contentDescription="@string/call"
-        android1:src="@android:drawable/sym_action_call"
-        android1:visibility="visible" />
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageButton3"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageButton3"
+        android:contentDescription="@string/call"
+        android:src="@android:drawable/sym_action_call"
+        android:visibility="visible" />
 
     <ImageButton
-        android1:id="@+id/imageButton2"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/imageButton1"
-        android1:layout_alignParentRight="true"
-        android1:layout_below="@+id/imageButton1"
-        android1:contentDescription="@string/sms"
-        android1:src="@android:drawable/sym_action_email"
-        android1:visibility="visible" />
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageButton1"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageButton1"
+        android:contentDescription="@string/sms"
+        android:src="@android:drawable/sym_action_email"
+        android:visibility="visible" />
 
 </RelativeLayout>

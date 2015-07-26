@@ -1,8 +1,6 @@
 package com.jan.facetag;
 
 
-import java.util.ArrayList;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentUris;
@@ -15,18 +13,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
  
-public class adapter extends BaseAdapter {
- 
-    private Activity activity;
-    ArrayList<String> al;
+class adapter extends BaseAdapter {
+
+    private final ArrayList<String> al;
     private static LayoutInflater inflater=null;
-    public ImageView imageVeiw; 
- 
+
     public adapter(Activity a,ArrayList<String> names) {
-        activity = a;
-       al=names;
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        al=names;
+        inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
      
     }
     public int getCount() {
@@ -51,7 +48,7 @@ public class adapter extends BaseAdapter {
         
          TextView _name = (TextView)vi.findViewById(R.id.name); 
              _name.setText(al.get(position));
-             imageVeiw=(ImageView)vi.findViewById(R.id.list_image);
+        ImageView imageVeiw = (ImageView) vi.findViewById(R.id.list_image);
            
          Uri uri;
        
